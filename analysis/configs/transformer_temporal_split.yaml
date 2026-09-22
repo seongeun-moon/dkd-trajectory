@@ -1,0 +1,62 @@
+# Reduced-budget Performer configuration for the 2003-2010 -> 2011-2014
+# temporal-split retraining reported in the Discussion.
+#
+# Architecture is identical to configs/transformer_performer.yaml. Only the
+# training budget differs: this run was done on a single workstation rather than
+# the original GPU cluster, so the epoch cap and early-stopping patience were
+# reduced and a single seed was used. It converged by early stopping, but the
+# resulting numbers are a single-seed estimate, not a seed-averaged replacement
+# for the reported table.
+
+run_name_template: "performer_l1h4e64lr0.0001p20_{seed}"
+seeds: [2022]
+
+model:
+  model: performer
+  embed_dim: 64
+  embed_hidden_dim: [256]
+  cls_hidden_dim: [256]
+  mlm_hidden_dim: [256]
+  pos_encode: true
+  num_head: 4
+  d_ff: 2048
+  num_layers: 1
+  dropout: 0.5
+  p_m: 0.3
+  binary_classification: true
+
+training:
+  lr: 1.0e-4
+  weight_decay: 0.01
+  reg_weight: 1.0e-4
+  mlm_weight: 0.1
+  epoch: 25                # reduced from 10000
+  batch_size: 200
+  patience: 8              # reduced from 20
+  balanced: true
+  lr_step_size: 10
+  lr_gamma: 0.9
+
+data:
+  name: snubh
+  data_suffix: "12_normal"
+  split_type: frequency
+  feature_set: [usual, unusual, prs]
+
+categories: [usual, unusual]
+
+dim_info:
+  importance_embed: 3
+  time_embed: 2
+  obsn_embed: 2
+  usual_input_dim: 42
+  usual_len: 92
+  unusual_input_dim: 3
+  unusual_len: 24
+  prs_input_dim: 160
+  prs_len: 24
+  code_embed: 926
+  unit_embed: 25
+  input_dim: 256
+  output_dim: 2
+  num_condition: 7

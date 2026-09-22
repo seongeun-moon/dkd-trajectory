@@ -1,0 +1,17 @@
+# Dependencies for baselines/ only.
+#
+#   python -m venv .venv-baselines && source .venv-baselines/bin/activate
+#   pip install -r requirements-baselines.txt
+#
+# PyCaret pins older numpy/pandas than the rest of this repository needs, so it
+# gets its own environment rather than sharing one. Installing it alongside
+# requirements.txt downgrades numpy and breaks the analysis scripts.
+
+# main_pycaret.py runs the hyperparameter search behind the published baseline
+# rows and pulls in numpy / pandas / scikit-learn / joblib itself.
+pycaret>=3.0
+
+# Imported directly by baselines/utils.py (the DataLoader-backed `dataset`
+# class) and by common/, which baselines/ imports.
+torch>=2.0
+pyyaml>=6.0

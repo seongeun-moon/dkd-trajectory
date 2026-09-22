@@ -1,0 +1,54 @@
+# Python 3.10+ (developed on 3.12).
+#
+#   python -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements.txt
+#
+# For CUDA, install the matching PyTorch build from pytorch.org first, then run
+# this file.
+#
+# baselines/ is NOT covered here: PyCaret pins older numpy/pandas and needs its
+# own environment. See requirements-baselines.txt.
+
+# --- core -------------------------------------------------------------------
+numpy>=1.24
+pandas>=2.0
+scikit-learn>=1.4
+scipy>=1.11
+joblib>=1.3
+pyyaml>=6.0
+tqdm>=4.65
+matplotlib>=3.7
+
+# --- transformer (het_trans/, analysis/transformer*.py) ---------------------
+torch>=2.0
+einops>=0.6
+local-attention>=1.8
+axial-positional-embedding>=0.2
+# main_graph_snubh.py imports SummaryWriter at module level, so training will
+# not start without this even when save_log=False.
+tensorboard>=2.14
+
+# --- tree baselines (analysis/models.py) ------------------------------------
+lightgbm>=4.0
+xgboost>=2.0
+
+# --- preprocessing ----------------------------------------------------------
+# 01_data_processing.py reads the reference tables with pd.read_excel.
+openpyxl>=3.1
+
+# --- figures ----------------------------------------------------------------
+# ckd_progression_sankey.py only.
+plotly>=5.0
+
+# --- optional ---------------------------------------------------------------
+# shap_importance.py checks for this at start-up and exits with a message if it
+# is missing.
+shap>=0.44
+
+# synthetic_stress_test.py fits a Gaussian-Copula synthesiser; it checks for
+# this the same way.
+sdv>=1.3
+
+# Not required: performer_attention.py imports `apex` and `fast_transformers`
+# inside try/except blocks, for mixed-precision and causal attention. This model
+# uses neither.

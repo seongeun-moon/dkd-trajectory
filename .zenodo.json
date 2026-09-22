@@ -1,0 +1,42 @@
+{
+  "title": "dkd-trajectory: Transformer-based prediction of kidney function trajectories in diabetic kidney disease",
+  "description": "<p>Analysis code for a study predicting kidney-function trajectories in diabetic kidney disease from electronic health records.</p><p>The repository holds code only — no patient data and no model checkpoints. It covers the full pipeline: preprocessing of the hospital EHR export into model-ready tensors, the heterogeneous Performer model and its training driver, the conventional baselines (logistic regression, SVM, LightGBM, XGBoost) through PyCaret, and the analyses behind the reported metrics, figures, feature importances and robustness checks.</p><p>Two binary endpoints are supported and defined once: CKD-stage progression, and a sustained eGFR decline to 70% of baseline or less, each evaluated at 1, 3, 5 and 10 years from the index date.</p>",
+  "upload_type": "software",
+  "license": "MIT",
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Ryu, Jiwon",
+      "affiliation": "Division of General Internal Medicine, Department of Internal Medicine, Seoul National University Bundang Hospital, Seoul National University College of Medicine, Seongnam, Republic of Korea"
+    },
+    {
+      "name": "Moon, Seong-Eun",
+      "affiliation": "Samsung Research, Samsung Electronics, Seoul, Republic of Korea"
+    },
+    {
+      "name": "Yoo, Haanju",
+      "affiliation": "NAVER Applied AI Group, NAVER, Seongnam, Republic of Korea"
+    },
+    {
+      "name": "Yi, Jinyeong",
+      "affiliation": "Department of Health Science and Technology, Graduate School of Convergence Science and Technology, Seoul National University, Seoul, Republic of Korea"
+    },
+    {
+      "name": "Kim, Sejoong",
+      "affiliation": "Division of General Internal Medicine, Department of Internal Medicine, Seoul National University Bundang Hospital, Seoul National University College of Medicine, Seongnam, Republic of Korea"
+    },
+    {
+      "name": "Yoon, Hyung-Jin",
+      "affiliation": "Department of Human Systems Medicine, Seoul National University Hospital, Seoul, Republic of Korea"
+    }
+  ],
+  "keywords": [
+    "chronic kidney disease",
+    "diabetes mellitus",
+    "electronic health record",
+    "transformer",
+    "clinical prediction model",
+    "diabetic kidney disease"
+  ],
+  "language": "eng"
+}

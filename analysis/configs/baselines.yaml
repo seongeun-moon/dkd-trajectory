@@ -1,0 +1,54 @@
+# Tree and linear baselines, as refit by the scripts in this directory.
+#
+# NOTE ON PROVENANCE. The published baseline rows were produced by the PyCaret
+# driver at baselines/main_pycaret.py (`--model {lr,svm,lightgbm,xgboost}
+# --agg average --concat_time --concat_cdt --binary`). The scripts here
+# reproduce those numbers from the archived prediction CSVs via
+# compute_metrics.py rather than by re-running the tuning sweep.
+#
+# The fixed settings below are what the scripts that DO refit
+# (shap_importance.py, perturbation_stress_test.py) use on the flattened
+# per-slice feature matrix. They are not the tuned values of the published
+# search.
+
+lightgbm:
+  n_estimators: 200
+  learning_rate: 0.05
+  num_leaves: 31
+  min_child_samples: 20
+  class_weight: balanced
+  random_state: 2022
+  verbose: -1
+
+xgboost:
+  n_estimators: 200
+  learning_rate: 0.05
+  max_depth: 5
+  random_state: 2022
+  verbosity: 0
+  eval_metric: auc
+  # scale_pos_weight is set per horizon at fit time as neg/pos, because event
+  # prevalence ranges from ~1.2% (1 y) to ~8.4% (10 y).
+  scale_pos_weight: auto
+
+evaluation:
+  threshold: 0.5
+  bootstrap_resamples: 300
+  bootstrap_seed: 0
+
+# Horizon condition code -> horizon label. Codes 0/1/5 exist in the extract
+# but are not reported (6 mo, 6-12 mo pooled, and 7 y respectively).
+horizons:
+  2: 1y
+  3: 3y
+  4: 5y
+  6: 10y
+
+# Archived prediction-CSV naming, consumed by compute_metrics.py:
+#   <raw_results>/<dir>/<prefix>_<seed>_<horizon_suffix>.csv
+archived_models:
+  - {dir: performer, prefix: performer_l1h4e64lr0.0001p20, label: Transformer}
+  - {dir: lightgbm,  prefix: lightgbm_average_time_cdt,    label: LightGBM}
+  - {dir: xgb,       prefix: xgb_average_time_cdt,         label: XGBoost}
+  - {dir: lr,        prefix: lr_average_time_cdt,          label: LR}
+  - {dir: svm,       prefix: svm_average_time_cdt,         label: SVM}

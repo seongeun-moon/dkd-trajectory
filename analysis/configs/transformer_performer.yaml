@@ -1,0 +1,58 @@
+# Archived Performer configuration -- the run behind the reported results.
+#
+# Reproduced verbatim from the training runs' args.txt
+# (result/performer_l1h4e64lr0.0001p20_{2022,2023,2024}/args.txt).
+
+run_name_template: "performer_l1h4e64lr0.0001p20_{seed}"
+seeds: [2022, 2023, 2024]
+
+model:
+  model: performer
+  embed_dim: 64
+  embed_hidden_dim: [256]
+  cls_hidden_dim: [256]
+  mlm_hidden_dim: [256]
+  pos_encode: true
+  num_head: 4
+  d_ff: 2048
+  num_layers: 1
+  dropout: 0.5
+  p_m: 0.3                 # masking rate for the masked-token auxiliary task
+  binary_classification: true
+
+training:
+  lr: 1.0e-4
+  weight_decay: 0.01
+  reg_weight: 1.0e-4       # weight of the eGFR regression auxiliary loss
+  mlm_weight: 0.1          # weight of the masked-token auxiliary loss
+  epoch: 10000             # early stopping terminates well before this cap
+  batch_size: 200
+  patience: 20
+  balanced: true
+
+data:
+  name: snubh
+  data_suffix: "12_normal"
+  split_type: frequency
+  feature_set: [usual, unusual, prs]
+
+categories: [usual, unusual]
+
+# Input/embedding dimensions of the preprocessed SNUBH extract. These describe
+# the shape of the data, not the data itself, and are required to rebuild the
+# architecture before loading an archived checkpoint.
+dim_info:
+  importance_embed: 3
+  time_embed: 2
+  obsn_embed: 2
+  usual_input_dim: 42      # frequently recorded variables
+  usual_len: 92
+  unusual_input_dim: 3     # CRP, C-peptide, Troponin-I
+  unusual_len: 24
+  prs_input_dim: 160
+  prs_len: 24
+  code_embed: 926          # prescription ingredient vocabulary
+  unit_embed: 25
+  input_dim: 256
+  output_dim: 2
+  num_condition: 7         # prediction-horizon condition codes

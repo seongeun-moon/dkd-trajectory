@@ -1,0 +1,80 @@
+# ---------------------------------------------------------------------------
+# Patient data must never enter this repository.
+#
+# The EHR extract is governed by an IRB data-use agreement. The rules below
+# deny by directory and by extension, so an accidental `git add` of a data file
+# or a derived cache fails rather than publishing it.
+#
+# Do not add exceptions without checking what the file actually contains:
+# per-record predictions, label vectors and metric tables built from them are
+# individual-level data too.
+# ---------------------------------------------------------------------------
+
+# --- directories the code reads from and writes to --------------------------
+# These are the defaults in */paths.py (CKD_RAW_ROOT, CKD_DATA_ROOT,
+# CKD_RESULT_ROOT, CKD_WORK_DIR). Point the variables elsewhere and those
+# locations are outside the repository anyway.
+data/
+data_local/
+result/
+work/
+outputs/
+checkpoints/
+logs/
+
+# --- serialised data and model weights, wherever they land ------------------
+*.pkl
+*.joblib
+*.npz
+*.npy
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.ckpt
+*.sav
+
+# --- tabular exports --------------------------------------------------------
+# Every CSV/Excel file this pipeline touches is either the hospital export or a
+# per-slice prediction table. Nothing in version control needs to be one.
+*.csv
+*.xlsx
+*.xls
+
+# Run directories store predictions as result.json / *_result.pkl
+result.json
+*_result.json
+
+# --- TensorBoard (event files embed the training host name) -----------------
+events.out.tfevents.*
+runs/
+
+# --- figures ----------------------------------------------------------------
+# Curves are drawn from per-patient predictions; regenerate them rather than
+# committing them.
+*.png
+*.pdf
+*.svg
+
+# --- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+
+# --- one-off local tooling --------------------------------------------------
+# Migration helper for datasets built before the reduced24_* naming was
+# unified. Run it once against your data directory; it is not part of the
+# published pipeline.
+rename_reduced224.sh
+
+# --- OS / editor ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
